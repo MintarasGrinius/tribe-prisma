@@ -61,7 +61,8 @@ const useStyles = makeStyles({
   innerContainer: {
     paddingLeft: "1rem",
     flex: 1,
-    display: "flex",
+    display: "grid",
+    gridTemplateColumns: "repeat( auto-fit, minmax(250px, 1fr) )",
     flexWrap: "wrap",
     gap: "0 1.5rem",
     overflow: "auto",
