@@ -35,7 +35,6 @@ const useStyles = makeStyles({
   container: {
     cursor: "pointer",
     margin: "2.5rem 0 1rem",
-    // width: '320px',
     height: "320px",
     display: "flex",
     flexDirection: "column",
