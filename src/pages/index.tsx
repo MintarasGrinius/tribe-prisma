@@ -7,15 +7,9 @@ import { makeStyles } from "@material-ui/core";
 import Sidebar from "@/components/sidebar";
 import EventCard, { PlannedEvent } from "@/components/card";
 import Skeleton from "@material-ui/lab/Skeleton";
+import LayoutWithSidebar from "@/components/LayoutWithSidebar";
 
 const useStyles = makeStyles({
-  container: {
-    height: "100vh",
-    width: "100vw",
-    padding: "1rem",
-    display: "flex",
-    backgroundColor: "rgb(240, 242, 245)",
-  },
   sidebar: {
     height: "100%",
     width: "250px",
@@ -59,12 +53,11 @@ const useStyles = makeStyles({
     },
   },
   innerContainer: {
-    paddingLeft: "1rem",
     flex: 1,
     display: "grid",
     gridTemplateColumns: "repeat( auto-fit, minmax(250px, 1fr) )",
     flexWrap: "wrap",
-    gap: "0 1.5rem",
+    gap: "0 1rem",
     overflow: "auto",
     marginBottom: "-1rem",
     margin: "-1rem 0",
@@ -138,37 +131,34 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <Layout description={"Descriptions page"} title={"Descriptions"}>
-      <div className={classes.container}>
-        <Sidebar />
-        <div className={classes.innerContainer}>
-          {loading ? (
-            <>
-              {Array(6)
-                .fill(1)
-                .map((a) => (
-                  <Skeleton
-                    className={classes.skeleton}
-                    variant="rect"
-                    width={320}
-                    height={320}
-                  />
-                ))}
-            </>
-          ) : (
-            <>
-              {events.map((a) => (
-                <EventCard
-                  applyToAttend={() => applyToAttend(a.event_id)}
-                  dislike={() => dislike(a.event_id)}
-                  event={a}
+    <LayoutWithSidebar>
+      <div className={classes.innerContainer}>
+        {loading ? (
+          <>
+            {Array(6)
+              .fill(1)
+              .map((a) => (
+                <Skeleton
+                  className={classes.skeleton}
+                  variant="rect"
+                  width={320}
+                  height={320}
                 />
               ))}
-            </>
-          )}
-        </div>
+          </>
+        ) : (
+          <>
+            {events.map((a) => (
+              <EventCard
+                applyToAttend={() => applyToAttend(a.event_id)}
+                dislike={() => dislike(a.event_id)}
+                event={a}
+              />
+            ))}
+          </>
+        )}
       </div>
-    </Layout>
+    </LayoutWithSidebar>
   );
 };
 

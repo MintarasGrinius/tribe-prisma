@@ -2,6 +2,7 @@ import Layout from "@/components/layout";
 import React from "react";
 import { makeStyles } from "@material-ui/core";
 import Sidebar from "@/components/sidebar";
+import LayoutWithSidebar from "@/components/LayoutWithSidebar";
 
 const useStyles = makeStyles({
   container: {
@@ -14,13 +15,7 @@ const useStyles = makeStyles({
 const Planned = () => {
   const classes = useStyles();
 
-  return (
-    <Layout description={"Descriptions page"} title={"Descriptions"}>
-      <div className={classes.container}>
-        <Sidebar />
-      </div>
-    </Layout>
-  );
+  return <LayoutWithSidebar>{"aaa"}</LayoutWithSidebar>;
 };
 
 export default Planned;

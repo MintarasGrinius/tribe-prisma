@@ -141,7 +141,7 @@ const EventCard = ({ event, applyToAttend, dislike }: Props) => {
           invisible={!event.status}
           classes={{
             badge: classNames(classes.badge, {
-              [classes.dislike]: event.status === "dislike",
+              [classes.dislike]: event.status !== "liked",
             }),
           }}
           anchorOrigin={{
