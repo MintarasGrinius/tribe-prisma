@@ -12,6 +12,10 @@ import {
 } from "@material-ui/core";
 import { Form, Formik } from "formik";
 import { createTheme, TextField } from "@mui/material";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import classNames from "classnames";
 
 interface Props {
   open: boolean;
@@ -34,6 +38,16 @@ const useStyles = makeStyles({
   },
   textField: {
     width: "48%",
+    // height: "40px",
+    "& > div": {
+      height: "40px",
+      "& svg": {
+        color: "#979797",
+      },
+      "& input": {
+        height: "40px",
+      },
+    },
     "&:hover, &:active": {
       backgroundColor: "rgba(255, 255, 255, 0.05)",
     },
@@ -102,90 +116,179 @@ const CreateModal = ({ open, setOpen }: Props) => {
               }}
               onSubmit={(a) => console.log(a)}
             >
-              <Form className={classes.form}>
-                <TextField
-                  color="primary"
-                  name="from"
-                  label="Start Date and Time"
-                  classes={{ root: classes.textField }}
-                  size="small"
-                />
-                <TextField
-                  color="primary"
-                  name="to"
-                  label="End Date and Time"
-                  classes={{ root: classes.textField }}
-                  size="small"
-                />
-                <TextField
-                  color="primary"
-                  name="capacity"
-                  label="Capacity"
-                  classes={{ root: classes.textField }}
-                  size="small"
-                />
-                <TextField
-                  color="primary"
-                  name="category"
-                  label="Category"
-                  classes={{ root: classes.textField }}
-                  size="small"
-                />
-                <TextField
-                  color="primary"
-                  name="description"
-                  label="Description"
-                  classes={{ root: classes.textField }}
-                  size="small"
-                  rows={4}
-                  multiline
-                />
-                <TextField
-                  color="primary"
-                  name="dress_code"
-                  label="Dress code"
-                  classes={{ root: classes.textField }}
-                  size="small"
-                  rows={4}
-                  multiline
-                />
-                <TextField
-                  color="primary"
-                  name="location"
-                  label="Location"
-                  classes={{ root: classes.textField }}
-                  size="small"
-                />
-                <TextField
-                  color="primary"
-                  name="time"
-                  label="Time"
-                  classes={{ root: classes.textField }}
-                  size="small"
-                />
-                <TextField
-                  color="primary"
-                  name="title"
-                  label="Title"
-                  classes={{ root: classes.textField }}
-                  size="small"
-                />
-                <TextField
-                  color="primary"
-                  name="photos"
-                  label="Photos"
-                  classes={{ root: classes.textField }}
-                  size="small"
-                />
-                <Button
-                  classes={{ root: classes.submit }}
-                  type="submit"
-                  variant="contained"
-                  color="primary"
-                >
-                  Create
-                </Button>
-              </Form>
+              {({ values, handleChange, touched, errors, setFieldValue }) => {
+                return (
+                  <Form className={classes.form}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DateTimePicker
+                        label="Start Date and Time"
+                        className={classNames(classes.textField)}
+                        renderInput={(params) => (
+                          <TextField
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            {...params}
+                            inputProps={{
+                              placeholder: "",
+                            }}
+                          />
+                        )}
+                        value={values.age_group.from}
+                        onChange={(a) =>
+                          setFieldValue("age_group[from]", a["$d"])
+                        }
+                      />
+                    </LocalizationProvider>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DateTimePicker
+                        label="End Date and Time"
+                        className={classNames(classes.textField)}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            placeholder=""
+                            inputProps={{
+                              placeholder: "",
+                            }}
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                          />
+                        )}
+                        value={values.age_group.to}
+                        onChange={(a) =>
+                          setFieldValue("age_group[to]", a["$d"])
+                        }
+                      />
+                    </LocalizationProvider>
+                    <TextField
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      color="primary"
+                      name="capacity"
+                      label="Capacity"
+                      classes={{ root: classes.textField }}
+                      size="small"
+                      value={values.capacity}
+                      onChange={handleChange}
+                      error={touched.capacity && Boolean(errors.capacity)}
+                      helperText={touched.capacity && errors.capacity}
+                    />
+                    <TextField
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      color="primary"
+                      name="category"
+                      label="Category"
+                      classes={{ root: classes.textField }}
+                      size="small"
+                      value={values.category}
+                      onChange={handleChange}
+                      error={touched.category && Boolean(errors.category)}
+                      helperText={touched.category && errors.category}
+                    />
+                    <TextField
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      color="primary"
+                      name="description"
+                      label="Description"
+                      classes={{ root: classes.textField }}
+                      size="small"
+                      rows={4}
+                      multiline
+                      value={values.description}
+                      onChange={handleChange}
+                      error={touched.description && Boolean(errors.description)}
+                      helperText={touched.description && errors.description}
+                    />
+                    <TextField
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      color="primary"
+                      name="dress_code"
+                      label="Dress code"
+                      classes={{ root: classes.textField }}
+                      size="small"
+                      rows={4}
+                      multiline
+                      value={values.dress_code}
+                      onChange={handleChange}
+                      error={touched.dress_code && Boolean(errors.dress_code)}
+                      helperText={touched.dress_code && errors.dress_code}
+                    />
+                    <TextField
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      color="primary"
+                      name="location"
+                      label="Location"
+                      classes={{ root: classes.textField }}
+                      size="small"
+                      value={values.location}
+                      onChange={handleChange}
+                      error={touched.location && Boolean(errors.location)}
+                      helperText={touched.location && errors.location}
+                    />
+                    <TextField
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      color="primary"
+                      name="time"
+                      label="Time"
+                      classes={{ root: classes.textField }}
+                      size="small"
+                      value={values.time}
+                      onChange={handleChange}
+                      error={touched.time && Boolean(errors.time)}
+                      helperText={touched.time && errors.time}
+                    />
+                    <TextField
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      color="primary"
+                      name="title"
+                      label="Title"
+                      classes={{ root: classes.textField }}
+                      size="small"
+                      value={values.title}
+                      onChange={handleChange}
+                      error={touched.title && Boolean(errors.title)}
+                      helperText={touched.title && errors.title}
+                    />
+                    <TextField
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      color="primary"
+                      name="photos"
+                      label="Photos"
+                      classes={{ root: classes.textField }}
+                      size="small"
+                      value={values.photos}
+                      onChange={handleChange}
+                      error={touched.photos && Boolean(errors.photos)}
+                      helperText={touched.photos && errors.photos}
+                    />
+                    <Button
+                      classes={{ root: classes.submit }}
+                      type="submit"
+                      variant="contained"
+                      color="primary"
+                    >
+                      Create
+                    </Button>
+                  </Form>
+                );
+              }}
             </Formik>
           </Box>
         </div>
