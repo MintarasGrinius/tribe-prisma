@@ -5,6 +5,7 @@ import { generateDisplayableImage } from "../../utils";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import CardModal from "./CardModal";
 import classNames from "classnames";
+import { Typography } from "@mui/material";
 
 export type PlannedEvent = {
   age_group: {
@@ -161,7 +162,9 @@ const EventCard = ({ event, applyToAttend, dislike }: Props) => {
 
         <div className={classes.contentContainer}>
           <div className={classes.title}>{event.title}</div>
-          <div className={classes.subtitle}>{event.description}</div>
+          <div className={classes.subtitle}>
+            <Typography noWrap>{event.description}</Typography>
+          </div>
           <div className={classes.time}>
             <div>
               <AccessTimeIcon classes={{ root: classes.icon }} />

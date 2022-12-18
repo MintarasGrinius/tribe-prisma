@@ -58,7 +58,7 @@ const useStyles = makeStyles({
     gap: "0 1rem",
     overflow: "auto",
     marginBottom: "-1rem",
-    margin: "-1rem 0",
+    margin: "0",
   },
   skeleton: {
     margin: "1rem 0",

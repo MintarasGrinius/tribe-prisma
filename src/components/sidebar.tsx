@@ -12,6 +12,7 @@ const useStyles = makeStyles({
     background: "linear-gradient(195deg, rgb(66, 66, 74), rgb(25, 25, 25))",
     boxShadow: "rgb(0 0 0 / 50%) 0rem 0 1.6875rem 0rem",
     borderRadius: "12px",
+    margin: "1rem",
   },
   head: {
     padding: "24px 32px 10px",
@@ -55,6 +56,11 @@ const links = [
     href: "/",
     icon: <DashboardIcon />,
     label: "Dashboard",
+  },
+  {
+    href: "/events",
+    icon: <DashboardIcon />,
+    label: "Events",
   },
   {
     href: "/planned",

@@ -7,12 +7,13 @@ const useStyles = makeStyles({
   container: {
     height: "100vh",
     width: "100vw",
-    padding: "1rem",
+    // padding: "1rem",
     display: "flex",
     backgroundColor: "rgb(240, 242, 245)",
   },
   innerContainer: {
-    paddingLeft: "1rem",
+    padding: "0 1rem 0 0",
+    overflow: "scroll",
     flex: 1,
   },
 });
