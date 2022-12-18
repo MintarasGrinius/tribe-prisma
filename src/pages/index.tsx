@@ -1,13 +1,11 @@
-import Layout from "@/components/layout";
 import { UserContext } from "@/components/user";
 import { authHeaders, backURL } from "@/components/user/env";
 import axios from "axios";
 import React, { useContext, useEffect } from "react";
 import { makeStyles } from "@material-ui/core";
-import Sidebar from "@/components/sidebar";
 import EventCard, { PlannedEvent } from "@/components/card";
-import Skeleton from "@material-ui/lab/Skeleton";
 import LayoutWithSidebar from "@/components/LayoutWithSidebar";
+import CardsSkeleton from "@/components/card/CardsSkeleton";
 
 const useStyles = makeStyles({
   sidebar: {
@@ -134,18 +132,7 @@ const Dashboard = () => {
     <LayoutWithSidebar>
       <div className={classes.innerContainer}>
         {loading ? (
-          <>
-            {Array(6)
-              .fill(1)
-              .map((a) => (
-                <Skeleton
-                  className={classes.skeleton}
-                  variant="rect"
-                  width={320}
-                  height={320}
-                />
-              ))}
-          </>
+          <CardsSkeleton />
         ) : (
           <>
             {events.map((a) => (
