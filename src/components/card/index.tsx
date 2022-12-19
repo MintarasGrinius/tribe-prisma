@@ -1,11 +1,11 @@
 //@flow
 import * as React from "react";
-import { Badge, CardMedia, makeStyles } from "@material-ui/core";
+import { CardMedia, makeStyles } from "@material-ui/core";
 import { generateDisplayableImage } from "../../utils";
 import AccessTimeIcon from "@material-ui/icons/AccessTime";
 import CardModal from "./CardModal";
-import classNames from "classnames";
 import { Typography } from "@mui/material";
+import CustomBadge from "../CustomBadge";
 
 export type PlannedEvent = {
   age_group: {
@@ -118,47 +118,24 @@ const useStyles = makeStyles({
     fontSize: "14px",
     margin: "1.2px 4px 0px 0px",
   },
-  badge: {
-    bottom: "20px",
-    right: "50px",
-    transition: "all 0.5s",
-    background: "linear-gradient(195deg, rgb(73, 163, 241), rgb(26, 115, 232))",
-    padding: "9px",
-  },
-  dislike: {
-    background: "linear-gradient(195deg, rgb(106 106 106), rgb(64 64 64))",
-  },
 });
 
 const EventCard = ({ event, applyToAttend, dislike }: Props) => {
   const classes = useStyles();
   const data = new Date(event.time);
   const [open, setOpen] = React.useState(false);
-
+  console.log(event);
   return (
     <>
       <div onClick={() => setOpen(true)} className={classes.container}>
-        <Badge
-          invisible={!event.status}
-          classes={{
-            badge: classNames(classes.badge, {
-              [classes.dislike]: event.status !== "liked",
-            }),
-          }}
-          anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "right",
-          }}
-          badgeContent={event.status === "liked" ? "Applied" : "Disliked"}
-          color="secondary"
-        >
+        <CustomBadge status={event.status}>
           <CardMedia
             classes={{ root: classes.media }}
             component="img"
             height="140"
             image={generateDisplayableImage(event.photos?.[0])}
           />
-        </Badge>
+        </CustomBadge>
 
         <div className={classes.contentContainer}>
           <div className={classes.title}>{event.title}</div>

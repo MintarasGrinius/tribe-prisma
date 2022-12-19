@@ -8,9 +8,12 @@ import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import { generateDisplayableImage } from "../../utils";
 import { PlannedEvent } from "../card";
+import CardModal from "../card/CardModal";
 
 interface Props {
   event: PlannedEvent;
+  applyToAttend: (id: number) => void;
+  dislikeEvent: (id: number) => void;
 }
 
 const useStyles = makeStyles({
@@ -20,21 +23,29 @@ const useStyles = makeStyles({
     gap: "1rem",
     margin: "0.3rem 0",
     cursor: "pointer",
+    transition: "0.3s ease-in-out",
+    "&:hover": {
+      transition: "0.3s ease-in-out",
+      backgroundColor: "#ffffff",
+      boxShadow: "0px 0px 20px #fff",
+      paddingTop: "0.8rem",
+      paddingBottom: "0.8rem",
+    },
   },
   avatar: {
     marginTop: "0 !important",
   },
 });
 
-const EventsListItem = ({
-  event: { event_id, title, description, location, photos },
-}: Props) => {
+const EventsListItem = ({ event, applyToAttend, dislikeEvent }: Props) => {
+  const { event_id, title, description, location, photos } = event;
+  const [open, setOpen] = React.useState(false);
   const classes = useStyles();
 
   return (
     <>
       <ListItem
-        onClick={() => console.log("aaa")}
+        onClick={() => setOpen(true)}
         classes={{ root: classes.item }}
         alignItems="flex-start"
       >
@@ -65,6 +76,13 @@ const EventsListItem = ({
         />
       </ListItem>
       <Divider variant="inset" component="li" />
+      <CardModal
+        applyToAttend={() => applyToAttend(event_id)}
+        dislike={() => dislikeEvent(event_id)}
+        open={open}
+        setOpen={setOpen}
+        event={event}
+      />
     </>
   );
 };

@@ -89,7 +89,6 @@ const Sidebar = () => {
   const [open, setOpen] = React.useState(false);
   const router = useRouter();
   const classes = useStyles();
-
   return (
     <>
       <div className={classes.sidebar}>

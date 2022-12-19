@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core";
 import EventCard, { PlannedEvent } from "@/components/card";
 import LayoutWithSidebar from "@/components/LayoutWithSidebar";
 import CardsSkeleton from "@/components/card/CardsSkeleton";
+import { apply, dislike, loadEvents } from "../utils";
 
 const useStyles = makeStyles({
   sidebar: {
@@ -74,36 +75,19 @@ const Dashboard = () => {
 
   const applyToAttend = async (eventId) => {
     setLoading(true);
-    const auth = await authHeaders();
-    await axios
-      .post(
-        backURL(`api/v1/events/${eventId}/like`),
-        {},
-        {
-          headers: { ...auth },
-        }
-      )
-      .then((response) => {
+    await apply(eventId)
+      .then(() => {
         getEvents();
-        console.log(response);
       })
       .catch((error) => console.log(error))
       .finally(() => setLoading(false));
   };
 
-  const dislike = async (eventId) => {
-    const auth = await authHeaders();
-    await axios
-      .post(
-        backURL(`api/v1/events/${eventId}/dislike`),
-        {},
-        {
-          headers: { ...auth },
-        }
-      )
-      .then((response) => {
+  const dislikeEvent = async (eventId) => {
+    setLoading(true);
+    await dislike(eventId)
+      .then(() => {
         getEvents();
-        console.log(response);
       })
       .catch((error) => console.log(error))
       .finally(() => setLoading(false));
@@ -111,14 +95,8 @@ const Dashboard = () => {
 
   const getEvents = async (): Promise<void> => {
     setLoading(true);
-    const authHeader = await authHeaders();
-
-    axios
-      .get(backURL("api/v1/events"), {
-        headers: { ...authHeader },
-      })
+    loadEvents()
       .then(({ data }) => {
-        console.log(data);
         setEvents(data);
       })
       .finally(() => setLoading(false));
@@ -138,7 +116,7 @@ const Dashboard = () => {
             {events.map((a) => (
               <EventCard
                 applyToAttend={() => applyToAttend(a.event_id)}
-                dislike={() => dislike(a.event_id)}
+                dislike={() => dislikeEvent(a.event_id)}
                 event={a}
               />
             ))}

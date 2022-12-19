@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 import { PlannedEvent } from "@/components/card";
 import axios from "axios";
 import { authHeaders, backURL } from "@/components/user/env";
-import { generateDisplayableImage } from "../utils";
+import { apply, dislike, generateDisplayableImage } from "../utils";
 import ListSkeleton from "@/components/events/ListSkeleton";
 import EventsListItem from "@/components/events/EventsListItem";
 
@@ -35,6 +35,26 @@ const Events = () => {
   const classes = useStyles();
   const [events, setEvents] = React.useState<PlannedEvent[]>([]);
   const [loading, setLoading] = React.useState(true);
+
+  const applyToAttend = async (eventId) => {
+    setLoading(true);
+    await apply(eventId)
+      .then(() => {
+        getEvents();
+      })
+      .catch((error) => console.log(error))
+      .finally(() => setLoading(false));
+  };
+
+  const dislikeEvent = async (eventId) => {
+    setLoading(true);
+    await dislike(eventId)
+      .then(() => {
+        getEvents();
+      })
+      .catch((error) => console.log(error))
+      .finally(() => setLoading(false));
+  };
 
   const getEvents = async (): Promise<void> => {
     setLoading(true);
@@ -63,7 +83,11 @@ const Events = () => {
         ) : (
           <>
             {events.map((event) => (
-              <EventsListItem event={event} />
+              <EventsListItem
+                dislikeEvent={dislikeEvent}
+                applyToAttend={applyToAttend}
+                event={event}
+              />
             ))}
           </>
         )}
