@@ -5,7 +5,7 @@ import classNames from "classnames";
 
 interface Props {
   status: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
 }
 
 const useStyles = makeStyles({

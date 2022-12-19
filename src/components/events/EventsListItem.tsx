@@ -9,6 +9,7 @@ import Typography from "@mui/material/Typography";
 import { generateDisplayableImage } from "../../utils";
 import { PlannedEvent } from "../card";
 import CardModal from "../card/CardModal";
+import CustomBadge from "../CustomBadge";
 
 interface Props {
   event: PlannedEvent;
@@ -35,10 +36,25 @@ const useStyles = makeStyles({
   avatar: {
     marginTop: "0 !important",
   },
+  title: {
+    display: "flex",
+  },
+  status: {
+    marginLeft: "1rem",
+    display: "flex",
+    alignItems: "center",
+    "& > span > span": {
+      position: "initial",
+      transform: "none",
+      padding: "6px",
+      fontSize: "10px",
+      height: "16px",
+    },
+  },
 });
 
 const EventsListItem = ({ event, applyToAttend, dislikeEvent }: Props) => {
-  const { event_id, title, description, location, photos } = event;
+  const { event_id, title, description, location, photos, status } = event;
   const [open, setOpen] = React.useState(false);
   const classes = useStyles();
 
@@ -57,7 +73,14 @@ const EventsListItem = ({ event, applyToAttend, dislikeEvent }: Props) => {
           />
         </ListItemAvatar>
         <ListItemText
-          primary={title}
+          primary={
+            <span className={classes.title}>
+              {title}
+              <div className={classes.status}>
+                <CustomBadge status={status} />
+              </div>
+            </span>
+          }
           secondary={
             <React.Fragment>
               <Typography variant="body2" noWrap>
