@@ -16,6 +16,10 @@ import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import classNames from "classnames";
+import { PlannedEvent } from "../card";
+import { authHeaders, backURL } from "../user/env";
+import axios from "axios";
+import { getImageBases } from "@/utils/index";
 
 interface Props {
   open: boolean;
@@ -84,6 +88,35 @@ const useStyles = makeStyles({
 const CreateModal = ({ open, setOpen }: Props) => {
   const classes = useStyles();
 
+  const handleClickSubmit = async (values: any): Promise<void> => {
+    const auth = await authHeaders();
+    axios
+      .post(
+        backURL("api/v1/events"),
+        {
+          event: {
+            event_details_attributes: values,
+            hidden_event_details_attributes: {
+              contact_phone: "123",
+              contact_email: "kontaktuojam@valera.com",
+              precise_location: "Vasaros g. 5, Vilnius",
+            },
+            photos: getImageBases(values.photos),
+          },
+        },
+        {
+          headers: { ...auth },
+        }
+      )
+      .then((a) => {
+        console.log(a);
+      })
+      .catch((e) => console.log(e))
+      .finally(() => {
+        // handleClose()
+      });
+  };
+
   return (
     <>
       <Modal
@@ -101,70 +134,27 @@ const CreateModal = ({ open, setOpen }: Props) => {
             <Formik
               initialValues={{
                 age_group: {
-                  from: "",
-                  to: "",
+                  from: 0,
+                  to: 0,
                 },
-                capacity: "",
+                status: "",
+                capacity: 0,
                 category: "",
                 description: "",
                 dress_code: "",
+                event_id: 0,
+                id: 0,
                 location: "",
                 own_drinks: false,
                 time: "",
                 title: "",
-                photos: "",
+                photos: [""],
               }}
-              onSubmit={(a) => console.log(a)}
+              onSubmit={handleClickSubmit}
             >
               {({ values, handleChange, touched, errors, setFieldValue }) => {
                 return (
                   <Form className={classes.form}>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DatePicker
-                        label="Start Date and Time"
-                        className={classNames(classes.textField)}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            inputProps={{
-                              ...params.inputProps,
-                              placeholder: "",
-                            }}
-                            InputLabelProps={{
-                              ...params.InputLabelProps,
-                              shrink: true,
-                            }}
-                          />
-                        )}
-                        value={values.age_group.from}
-                        onChange={(a) =>
-                          setFieldValue("age_group[from]", a["$d"])
-                        }
-                      />
-                    </LocalizationProvider>
-                    <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DatePicker
-                        label="End Date and Time"
-                        className={classNames(classes.textField)}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            inputProps={{
-                              ...params.inputProps,
-                              placeholder: "",
-                            }}
-                            InputLabelProps={{
-                              ...params.InputLabelProps,
-                              shrink: true,
-                            }}
-                          />
-                        )}
-                        value={values.age_group.to}
-                        onChange={(a) =>
-                          setFieldValue("age_group[to]", a["$d"])
-                        }
-                      />
-                    </LocalizationProvider>
                     <TextField
                       InputLabelProps={{
                         shrink: true,
@@ -203,7 +193,6 @@ const CreateModal = ({ open, setOpen }: Props) => {
                       classes={{ root: classes.textField }}
                       size="small"
                       rows={4}
-                      multiline
                       value={values.description}
                       onChange={handleChange}
                       error={touched.description && Boolean(errors.description)}
@@ -219,7 +208,6 @@ const CreateModal = ({ open, setOpen }: Props) => {
                       classes={{ root: classes.textField }}
                       size="small"
                       rows={4}
-                      multiline
                       value={values.dress_code}
                       onChange={handleChange}
                       error={touched.dress_code && Boolean(errors.dress_code)}
@@ -239,20 +227,28 @@ const CreateModal = ({ open, setOpen }: Props) => {
                       error={touched.location && Boolean(errors.location)}
                       helperText={touched.location && errors.location}
                     />
-                    <TextField
-                      InputLabelProps={{
-                        shrink: true,
-                      }}
-                      color="primary"
-                      name="time"
-                      label="Time"
-                      classes={{ root: classes.textField }}
-                      size="small"
-                      value={values.time}
-                      onChange={handleChange}
-                      error={touched.time && Boolean(errors.time)}
-                      helperText={touched.time && errors.time}
-                    />
+
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DateTimePicker
+                        label="Time"
+                        className={classNames(classes.textField)}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            inputProps={{
+                              ...params.inputProps,
+                              placeholder: "",
+                            }}
+                            InputLabelProps={{
+                              ...params.InputLabelProps,
+                              shrink: true,
+                            }}
+                          />
+                        )}
+                        value={values.time}
+                        onChange={(a) => setFieldValue("time", a)}
+                      />
+                    </LocalizationProvider>
                     <TextField
                       InputLabelProps={{
                         shrink: true,

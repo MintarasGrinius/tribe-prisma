@@ -1,6 +1,16 @@
 import { authHeaders, backURL } from "@/components/user/env";
 import axios from "axios";
 
+export const getImageBases = (images: string[]): string[] => {
+  try {
+    const imgArr = images.map((img) => JSON.parse(img).base64 || "");
+
+    return imgArr;
+  } catch (e) {
+    return [""];
+  }
+};
+
 export const generateDisplayableImage = (image: string): string => {
   if (image) {
     return `data:image/jpeg;base64,${image}`;
