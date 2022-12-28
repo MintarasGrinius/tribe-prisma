@@ -120,17 +120,19 @@ const CreateModal = ({ open, setOpen }: Props) => {
                 return (
                   <Form className={classes.form}>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DateTimePicker
+                      <DatePicker
                         label="Start Date and Time"
                         className={classNames(classes.textField)}
                         renderInput={(params) => (
                           <TextField
-                            InputLabelProps={{
-                              shrink: true,
-                            }}
                             {...params}
                             inputProps={{
+                              ...params.inputProps,
                               placeholder: "",
+                            }}
+                            InputLabelProps={{
+                              ...params.InputLabelProps,
+                              shrink: true,
                             }}
                           />
                         )}
@@ -141,17 +143,18 @@ const CreateModal = ({ open, setOpen }: Props) => {
                       />
                     </LocalizationProvider>
                     <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DateTimePicker
+                      <DatePicker
                         label="End Date and Time"
                         className={classNames(classes.textField)}
                         renderInput={(params) => (
                           <TextField
                             {...params}
-                            placeholder=""
                             inputProps={{
+                              ...params.inputProps,
                               placeholder: "",
                             }}
                             InputLabelProps={{
+                              ...params.InputLabelProps,
                               shrink: true,
                             }}
                           />
